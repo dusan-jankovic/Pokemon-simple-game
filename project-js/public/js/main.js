@@ -79,7 +79,7 @@ while(i < pokemonsEl.length) {
 
   //current user and cpu pokemon initial health
    gameState.currentPokemon[0].health = calculateInitialHealth(gameState.currentPokemon)
-   gameState.currentRivalPokemon[0].health = calculateInitialHealth(gameState.currentPokemon)
+   gameState.currentRivalPokemon[0].health = calculateInitialHealth(gameState.currentRivalPokemon)
 
    console.log(gameState)
 
@@ -94,7 +94,7 @@ while(a < attackBtnsEl.length) {
 
      play(attackName,cpuAttack())
    }
-  a++(
+  a++
 }
 
 var cpuAttack = function() {
@@ -107,19 +107,29 @@ var calculateInitialHealth = function(user) {
    return Math.round(((0.20 * Math.sqrt(user[0].level)) * user[0].defence) * user[0].hp)
 }
 
+
 var attackMove = function(attack, level, stack, critical, enemy) {
-   ((attack * level) * (stack + critical)) / 3
+  console.log('enemy.health before:' + enemy.health)
+
+  var attackAmount =  ((attack * level) * (stack + critical)) 
+  enemy.health = enemy.health - attackAmount
+
+  console.log('enemy.health after:' + enemy.health)
 }
-var currentPokemon = gameState.currrentPokemon[0]
-var currentRivalPokemon = gameState.currrentRivalPokemon[0]
+
+
+
 
 
 var play = function(userAttack, cpuAttack) {
+  var currentPokemon = gameState.currentPokemon[0]
+  var currentRivalPokemon = gameState.currentPokemon[0]
   switch (userAttack) {
     //////////////
     case 'rock':
      if(cpuAttack == 'paper'){
-       attackMove(currentPokemon.attack, currentPokemon.level, .8, .5)
+       attackMove(currentPokemon.attack, currentPokemon.level, .8, 1.5, currentRivalPokemon)
+       console.log('Paper kiled rock')
      }
      if(cpuAttack == 'scissors'){
        console.log('Rock kiled scissiors')
